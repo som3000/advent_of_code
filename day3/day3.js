@@ -38,12 +38,12 @@ const tracePath = (wireCmd, initialPoint) => {
   return wireCmd.reduce((acc, x) => executeCmd(acc, x), [initialPoint]);
 };
 
-const wire1ArrayOfPoints = tracePath(wire1, [0, 0]).map((x) => x + "");
-const wire2ArrayOfPoints = tracePath(wire2, [0, 0]).map((x) => x + "");
+const wire1ArrayOfPoints = tracePath(wire1, [0, 0]).reverse();
+const wire2ArrayOfPoints = tracePath(wire2, [0, 0]).reverse();
 
-const findIntersection = (array1, array2) => {
-  return array1.filter((x) => array2.includes(x));
-};
+// const findIntersection = (array1, array2) => {
+//   return array1.filter((x) => array2.includes(x));
+// };
 
 // findIntersection(wire1ArrayOfPoints, wire2ArrayOfPoints).map(x => x.split(",").map(x => parseInt(x))).map(x => manhattanDistn([0,0], x))
 
@@ -59,25 +59,50 @@ const findIntersection = (array1, array2) => {
 //   "2487,1383", "0,0"
 // ].map(x => x.split(",").map(x => parseInt(x)));
 
-// const intersectionPointsFound = [
-//   [4503, 1752],
-//   [4303, 1752],
-//   [4052, 1974],
-//   [3791, 1974],
-//   [3791, 1598],
-//   [3385, 1259],
-//   [2511, 1383],
-//   [1403, 1850],
-//   [1381, 1565],
-//   [970, 1387],
-//   [970, 1159],
-//   [2072, 1383],
-//   [2546, 1383],
-//   [2326, 1383],
-//   [1906, 1428],
-//   [1381, 1428],
-//   [2487, 1383],
-// ];
+const findPoint = (arrayOfPoints1, arrayOfPoints2, point) => {
+  let stepsToReach = 0
+  for (let i = 0; i < arrayOfPoints1.length; i++) {
+    if (arrayOfPoints1[i][0] === point[0]) {
+      if (arrayOfPoints1[i][1] === point[1]) {
+        stepsToReach = i;
+      }
+    }
+  }
+  for (let j = 0; j < arrayOfPoints2.length; j++) {
+    if (arrayOfPoints2[j][0] === point[0]) {
+      if (arrayOfPoints2[j][1] === point[1]) {
+        stepsToReach += j;
+      }
+    }
+  }
+  return stepsToReach;
+}
+
+const intersectionPointsFound = [
+  [4503, 1752],
+  [4303, 1752],
+  [4052, 1974],
+  [3791, 1974],
+  [3791, 1598],
+  [3385, 1259],
+  [2511, 1383],
+  [1403, 1850],
+  [1381, 1565],
+  [970, 1387],
+  [970, 1159],
+  [2072, 1383],
+  [2546, 1383],
+  [2326, 1383],
+  [1906, 1428],
+  [1381, 1428],
+  [2487, 1383],
+];
+
+const stepsToReachPoint = (intersectionPointsFound, pointsOfWire1, pointsOfWire2) => {
+  return intersectionPointsFound.map(x => findPoint(pointsOfWire1, pointsOfWire2, x))
+}
+
+console.log(stepsToReachPoint(intersectionPointsFound, wire1ArrayOfPoints, wire2ArrayOfPoints))
 
 // const manhattanDistn = (p1, p2) => {
 //   return Math.abs(p1[0] - p2[0]) + Math.abs(p1[1] - p2[1]);
