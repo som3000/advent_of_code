@@ -12,17 +12,8 @@ const multiply = (array, i) => {
 };
 
 const redirect = (array, i) => {
-  switch (array[i]) {
-    case 1:
-      add(array, i);
-      break;
-    case 2:
-      multiply(array, i);
-      break;
-
-    default:
-      break;
-  }
+  const operations = {1 : add, 2: multiply};
+  operations[array[i]](array, i)
 };
 
 const intComputer = (dataArray) => {
