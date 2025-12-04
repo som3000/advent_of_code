@@ -1,13 +1,15 @@
-const twoAdjDigitsOnly = (number) => {
-  const digits = (number + "").split("");  
-  let i = 0;
-  let twoAdjFound = false;
-  while (i < digits.length-1) {
-    if(digits[i] === digits[i+1]) twoAdjFound = true;
-    if(twoAdjFound && (digits[i+1] === digits[i+2]) && (digits[i+2] !== digits[i+3])) return false;
-    i++;
+const frequency = (number, i, array) => {
+  let count = 0;
+  for (let i = 0; i < 6; i++) {
+    if (number === array[i]) count++;
   }
-  return twoAdjFound;
+  return count;
+};
+
+const twoAdjDigitsOnly = (number) => {
+  const digits = (number + "").split("");
+  const frequencies = digits.map(frequency);
+  return frequencies.some(x => x===2);
 };
 
 const digitsNeverDecreases = (number) => {
@@ -27,7 +29,7 @@ const meetsCriterion = (number) => {
 };
 
 const checkRange = (rangeStart, rangeEnd) => {
-  let counter = 0;
+  let counter =0;
   for (let currNum = rangeStart; currNum <= rangeEnd; currNum++) {
     if (meetsCriterion(currNum)) counter++;
   }
