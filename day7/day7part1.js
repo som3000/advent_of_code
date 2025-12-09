@@ -25,4 +25,7 @@ const amplifierSimulator = (dataArray, phaseArray) => {
   return output;
 }
 
-console.log(permutations([0,1,2,3,4]).map(x => amplifierSimulator(bigdataArray, x)).sort((a,b) => b-a));
+// console.log(amplifierSimulator(smallDataArray, [4,3,2,1,0]));
+
+
+// console.log(permutations([0,1,2,3,4]).map(x => amplifierSimulator(bigdataArray, x)).sort((a,b) => b-a));
