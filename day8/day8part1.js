@@ -16,7 +16,7 @@ const extractLayer = (textArray, width, depth, startIndex) => {
   return layer;
 };
 
-const convertToFormat = (textArray, width, depth) => {
+export const convertToFormat = (textArray, width, depth) => {
   const screen = [];
   for (let i = 0; i < textArray.length; i = i + width * depth) {
     screen.push(extractLayer(textArray, width, depth, i));
@@ -54,7 +54,7 @@ const layerWithLeast0 = (screen) => {
   return screen[indexOfLayerWithLeast0s];
 };
 
-function main(array, width, depth) {
+export function main(array, width, depth) {
   const screen = convertToFormat(array, width, depth);
   const targetLayer = layerWithLeast0(screen);
   const occOf1 = occurenceInLayer(targetLayer, 1);
@@ -63,4 +63,4 @@ function main(array, width, depth) {
   return occOf1 * occOf2;
 }
 
-console.log(main(dataNumArray, 25, 6));
+// console.log(main(dataNumArray, 25, 6));
