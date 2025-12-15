@@ -2,7 +2,7 @@ const dataNumArray = Deno.readTextFileSync("./day8part1.txt").split("").map(
   Number,
 );
 
-const makeLayer = (textArray, width, depth, startIndex) => {
+const extractLayer = (textArray, width, depth, startIndex) => {
   const layer = [];
   for (
     let index = startIndex;
@@ -19,48 +19,48 @@ const makeLayer = (textArray, width, depth, startIndex) => {
 const convertToFormat = (textArray, width, depth) => {
   const screen = [];
   for (let i = 0; i < textArray.length; i = i + width * depth) {
-    screen.push(makeLayer(textArray, width, depth, i));
+    screen.push(extractLayer(textArray, width, depth, i));
   }
   return screen;
 };
 
-// console.log(convertToFormat(dataNumArray, 25, 6));
+// console.log(convertToFormat(sampleArray, 25, 6));
 
-const occurence = (layer, number) => {
-  let zeroes = 0;
-  for (let lineNum = 0; lineNum < 6; lineNum++) {
-    // console.log(layer);
-
-    zeroes += layer[lineNum].lastIndexOf(number) -
-      layer[lineNum].indexOf(number) + 1;
-  }
-  return zeroes;
+export const occurenceInLayer = (layer, targetNum) => {
+  return layer.reduce(
+    (acc, line) => {
+      if (line.includes(targetNum)) {
+        return acc + line.lastIndexOf(targetNum) -
+          line.indexOf(targetNum) + 1;
+      }
+      return acc;
+    },
+    0,
+  );
 };
 
 const layerWithLeast0 = (screen) => {
-  const numOf0inLayers = [];
-  for (let layerNum = 0; layerNum < screen.length; layerNum++) {
-    numOf0inLayers.push(occurence(screen[layerNum], 0));
+  let least0s = Infinity;
+  let indexOfLayerWithLeast0s = 0;
+  let i = 0;
+  for (const layer of screen) {
+    const layer0s = occurenceInLayer(layer, 0);
+    if (layer0s < least0s) {
+      least0s = layer0s;
+      indexOfLayerWithLeast0s = i;
+    }
+    i++;
   }
-  console.log({numOf0inLayers});
-  
-
-  const least0sinLayer = numOf0inLayers.toSorted((a, b) => a - b)[0];
-
-  return screen[numOf0inLayers.indexOf(least0sinLayer)];
+  return screen[indexOfLayerWithLeast0s];
 };
 
-const main = (array, width, depth) => {
+function main(array, width, depth) {
   const screen = convertToFormat(array, width, depth);
-  console.log({ screen });
-
-  // const layer = screen[layerNum];
-  // console.log(layer);
   const targetLayer = layerWithLeast0(screen);
-  console.log(targetLayer);
-  const numOf1 = occurence(targetLayer, 1);
-  const numOf2 = occurence(targetLayer, 2);
-  return numOf1 * numOf2;
-};
+  const occOf1 = occurenceInLayer(targetLayer, 1);
+  const occOf2 = occurenceInLayer(targetLayer, 2);
+
+  return occOf1 * occOf2;
+}
 
 console.log(main(dataNumArray, 25, 6));
